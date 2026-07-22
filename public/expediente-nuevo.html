@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <title>Nuevo Expediente | Control de Escrituras</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Escrituras">
+    <link rel="apple-touch-icon" href="../img/icon-192.png">
+
 
     <link rel="stylesheet" href="../css/style.css">
 </head>
@@ -39,16 +47,16 @@
 
         <main class="main-content">
 
-            
+
             <section class="nuevo-expediente-hero">
-                
+
                 <div>
                     <span>Registro notarial</span>
                     <h2>Nuevo expediente</h2>
                     <span id="userName">Usuario</span>
                     <small id="userRole">Rol</small>
-                
-           
+
+
                     <p>
                         Capture los datos principales de la escritura, cliente, trámite y estado inicial del expediente.
                     </p>
@@ -224,6 +232,19 @@
     <script src="../js/auth.js"></script>
     <script src="../js/expediente-form.js"></script>
     <script src="../js/mobile_menu.js"></script>
+    <script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(() => {
+                    console.log("App móvil registrada correctamente");
+                })
+                .catch(error => {
+                    console.error("Error al registrar la app móvil:", error);
+                });
+        });
+    }
+</script>
 
 </body>
 

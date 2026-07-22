@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <title>Ver Expediente | Control de Escrituras</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Escrituras">
+    <link rel="apple-touch-icon" href="../img/icon-192.png">
+
 
     <!-- OJO: debe ser styles.css si ese es el archivo que estás editando -->
     <link rel="stylesheet" href="../css/style.css?v=7">
@@ -430,6 +438,19 @@
     <script src="../js/auth.js"></script>
     <script src="../js/expediente-ver.js?=v2"></script>
     <script src="../js/mobile_menu.js"></script>
+    <script>
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("service-worker.js")
+                .then(() => {
+                    console.log("App móvil registrada correctamente");
+                })
+                .catch(error => {
+                    console.error("Error al registrar la app móvil:", error);
+                });
+        });
+    }
+</script>
 
 </body>
 

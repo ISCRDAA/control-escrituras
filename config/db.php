@@ -1,6 +1,30 @@
 <?php
 
 $host = "localhost";
+$dbname = "u176240576_escrituras";
+$user = "u176240576_ARD2010207user";
+$password = "Angelalonso21";
+
+try {
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $user,
+        $password,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false
+        ]
+    );
+} catch (PDOException $e) {
+    die("Error de conexión a la base de datos.");
+}
+
+
+
+
+//Conexion de local host
+/*$host = "localhost";
 $dbname = "control_escrituras";
 $user = "root";
 $password = "";
@@ -24,3 +48,4 @@ try {
     ]);
     exit;
 }
+    */
