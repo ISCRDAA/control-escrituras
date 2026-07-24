@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set("America/Mexico_City");
+
 $host = "localhost";
 $dbname = "u176240576_escrituras";
 $user = "u176240576_ARD2010207user";
@@ -16,6 +18,10 @@ try {
             PDO::ATTR_EMULATE_PREPARES => false
         ]
     );
+
+    $pdo->exec("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci");
+    $pdo->exec("SET time_zone = '-06:00'");
+
 } catch (PDOException $e) {
     die("Error de conexión a la base de datos.");
 }
