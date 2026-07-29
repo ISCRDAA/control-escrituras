@@ -46,7 +46,7 @@ if (!in_array($extension, $extensiones_permitidas)) {
 $maximo = 20 * 1024 * 1024;
 
 if ($peso > $maximo) {
-    json_response(false, "El archivo no debe pesar más de 10 MB", null, 400);
+    json_response(false, "El archivo no debe pesar más de 20 MB", null, 400);
 }
 
 try {

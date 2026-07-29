@@ -655,10 +655,10 @@ window.subirDocumento = async function (e) {
     }
 
     const archivo = archivoInput.files[0];
-    const maximo = 10 * 1024 * 1024;
+    const maximo = 20 * 1024 * 1024;
 
     if (archivo.size > maximo) {
-        mostrarMensajeDocumento("El archivo no debe pesar más de 10 MB.", "error");
+        mostrarMensajeDocumento("El archivo no debe pesar más de 20 MB.", "error");
         return;
     }
 
