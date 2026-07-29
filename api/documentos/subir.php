@@ -43,7 +43,7 @@ if (!in_array($extension, $extensiones_permitidas)) {
     json_response(false, "Solo se permiten archivos PDF, JPG, JPEG o PNG", null, 400);
 }
 
-$maximo = 10 * 1024 * 1024;
+$maximo = 20 * 1024 * 1024;
 
 if ($peso > $maximo) {
     json_response(false, "El archivo no debe pesar más de 10 MB", null, 400);
