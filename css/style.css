@@ -2977,3 +2977,171 @@ button {
         justify-content: center;
     }
 }
+
+/* =========================
+   PAGINACIÓN EXPEDIENTES
+========================= */
+
+.pagination-box {
+    margin-top: 22px;
+    padding: 16px;
+    border-radius: 20px;
+    background:
+        radial-gradient(circle at 8% 8%, rgba(255,255,255,0.26), transparent 22%),
+        linear-gradient(135deg, #fff1c9 0%, #e8cb91 52%, #c2944b 100%);
+    border: 2px solid rgba(75, 45, 13, 0.22);
+    box-shadow:
+        0 12px 24px rgba(15, 23, 42, 0.14),
+        inset 0 0 22px rgba(75, 45, 13, 0.10);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.pagination-info {
+    color: #3a210b;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: bold;
+}
+
+.pagination-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.pagination-btn {
+    min-width: 42px;
+    min-height: 40px;
+    padding: 9px 13px;
+    border-radius: 13px;
+    border: 1px solid rgba(75, 45, 13, 0.22);
+    background: #fff7e6;
+    color: #3a210b;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pagination-btn:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+}
+
+.pagination-btn.active {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 8px 16px rgba(29, 78, 216, 0.24);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 900px) {
+    .pagination-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .pagination-info {
+        text-align: center;
+    }
+
+    .pagination-actions {
+        justify-content: center;
+    }
+
+    .pagination-btn {
+        flex: 1;
+        min-width: 48px;
+    }
+}
+
+/* =========================
+   PAGINACIÓN RESPONSIVA TIPO APP
+========================= */
+
+/* Por defecto: móvil oculto */
+.pagination-mobile-top {
+    display: none;
+}
+
+/* Escritorio: paginación completa */
+.pagination-desktop-bottom {
+    display: flex;
+}
+
+/* =========================
+   MÓVIL
+========================= */
+
+@media (max-width: 900px) {
+
+    /* Ocultar paginación completa en móvil */
+    .pagination-desktop-bottom {
+        display: none !important;
+    }
+
+    /* Mostrar paginación compacta arriba */
+    .pagination-mobile-top {
+        display: grid !important;
+        grid-template-columns: 44px 1fr 44px;
+        align-items: center;
+        gap: 10px;
+
+        margin: 0 0 16px 0;
+        padding: 10px;
+
+        background: rgba(255, 241, 201, 0.94);
+        border: 2px solid rgba(75, 45, 13, 0.22);
+        border-radius: 18px;
+
+        box-shadow:
+            0 10px 22px rgba(15, 23, 42, 0.18),
+            inset 0 0 14px rgba(75, 45, 13, 0.08);
+
+        backdrop-filter: blur(6px);
+    }
+
+    .pagination-mobile-info {
+        text-align: center;
+        color: #3a210b;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    .pagination-mobile-btn {
+        width: 44px;
+        height: 40px;
+        border: none;
+        border-radius: 14px;
+
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: #ffffff;
+
+        font-size: 28px;
+        font-weight: bold;
+        line-height: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        cursor: pointer;
+        box-shadow: 0 8px 16px rgba(29, 78, 216, 0.24);
+    }
+
+    .pagination-mobile-btn:disabled {
+        background: rgba(255, 255, 255, 0.64);
+        color: rgba(58, 33, 11, 0.38);
+        box-shadow: none;
+        cursor: not-allowed;
+    }
+}

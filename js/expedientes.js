@@ -1,3 +1,6 @@
+let paginaActual = 1;
+const registrosPorPagina = 10;
+
 document.addEventListener("DOMContentLoaded", async () => {
     const usuario = await verificarSesion();
 
@@ -27,12 +30,14 @@ function configurarEventos() {
 
     if (buscarInput) {
         buscarInput.addEventListener("input", () => {
+             paginaActual = 1;
             cargarExpedientes();
         });
     }
 
     if (filtroEstado) {
         filtroEstado.addEventListener("change", () => {
+              paginaActual = 1;
             cargarExpedientes();
         });
     }
@@ -47,6 +52,7 @@ function configurarEventos() {
                 filtroEstado.value = "";
             }
 
+            paginaActual = 1;
             cargarExpedientes();
         });
     }
@@ -71,6 +77,8 @@ async function cargarExpedientes() {
     const estado = document.getElementById("filtroEstado")?.value.trim() || "";
 
     const params = new URLSearchParams();
+    params.append("page", paginaActual);
+    params.append("per_page", registrosPorPagina);
 
     if (buscar !== "") {
         params.append("buscar", buscar);
@@ -96,17 +104,24 @@ async function cargarExpedientes() {
         }
 
         let expedientes = [];
+        let total = 0;
+        let totalPaginas = 1;
 
-        if (Array.isArray(result.data)) {
-            expedientes = result.data;
-        } else if (result.data && Array.isArray(result.data.expedientes)) {
-            expedientes = result.data.expedientes;
-        }
+            if (Array.isArray(result.data)) {
+                expedientes = result.data;
+                total = expedientes.length;
+                totalPaginas = 1;
+            } else if (result.data && Array.isArray(result.data.expedientes)) {
+                    expedientes = result.data.expedientes;
+                    total = Number(result.data.total || 0);
+                    totalPaginas = Number(result.data.total_paginas || 1);
+                    paginaActual = Number(result.data.pagina || paginaActual);
+                }
 
         expedientes = expedientes.filter(exp => exp && typeof exp === "object");
 
         if (message) {
-            message.textContent = "Total encontrado: " + expedientes.length;
+            message.textContent = "Total encontrado: " + total;
         }
 
         if (expedientes.length === 0) {
@@ -117,12 +132,14 @@ async function cargarExpedientes() {
                     </td>
                 </tr>
             `;
+            pintarPaginacion(0, 1);
             return;
         }
 
         tbody.innerHTML = expedientes
             .map(exp => crearFilaExpediente(exp))
             .join("");
+            pintarPaginacion(total, totalPaginas);
 
     } catch (error) {
         console.error(error);
@@ -132,6 +149,83 @@ async function cargarExpedientes() {
         }
     }
 }
+
+function pintarPaginacion(total, totalPaginas) {
+    const paginationDesktop = document.getElementById("paginationBox");
+    const paginationMobile = document.getElementById("paginationMobileTop");
+
+    if (total === 0 || totalPaginas <= 1) {
+        if (paginationDesktop) paginationDesktop.innerHTML = "";
+        if (paginationMobile) paginationMobile.innerHTML = "";
+        return;
+    }
+
+    let botonesDesktop = "";
+
+    botonesDesktop += `
+        <button type="button" class="pagination-btn" onclick="cambiarPagina(${paginaActual - 1})" ${paginaActual <= 1 ? "disabled" : ""}>
+            Anterior
+        </button>
+    `;
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        botonesDesktop += `
+            <button type="button" class="pagination-btn ${i === paginaActual ? "active" : ""}" onclick="cambiarPagina(${i})">
+                ${i}
+            </button>
+        `;
+    }
+
+    botonesDesktop += `
+        <button type="button" class="pagination-btn" onclick="cambiarPagina(${paginaActual + 1})" ${paginaActual >= totalPaginas ? "disabled" : ""}>
+            Siguiente
+        </button>
+    `;
+
+    if (paginationDesktop) {
+        paginationDesktop.innerHTML = `
+            <div class="pagination-info">
+                Página ${paginaActual} de ${totalPaginas}
+            </div>
+
+            <div class="pagination-actions">
+                ${botonesDesktop}
+            </div>
+        `;
+    }
+
+    if (paginationMobile) {
+        paginationMobile.innerHTML = `
+            <button type="button" class="pagination-mobile-btn" onclick="cambiarPagina(${paginaActual - 1})" ${paginaActual <= 1 ? "disabled" : ""}>
+                ‹
+            </button>
+
+            <div class="pagination-mobile-info">
+                Página ${paginaActual} de ${totalPaginas}
+            </div>
+
+            <button type="button" class="pagination-mobile-btn" onclick="cambiarPagina(${paginaActual + 1})" ${paginaActual >= totalPaginas ? "disabled" : ""}>
+                ›
+            </button>
+        `;
+    }
+}
+
+
+function cambiarPagina(nuevaPagina) {
+    if (nuevaPagina < 1) {
+        return;
+    }
+
+    paginaActual = nuevaPagina;
+    cargarExpedientes();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
 
 function crearFilaExpediente(exp) {
     if (!exp || typeof exp !== "object") {
